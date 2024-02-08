@@ -2,6 +2,9 @@ import { Button } from "@mui/material";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useDrawerContext } from "../shared/contexts";
 
+import { Cadastro } from "../pages";
+import { Dashboard } from "../pages/Dashboard";
+
 export const AppRoutes = () => {
   const { toggleDrawerOpen } = useDrawerContext();
   return (
@@ -18,6 +21,7 @@ export const AppRoutes = () => {
           </Button>
         }
       />
+      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="*" element={<Navigate to="/page-initial" />} />
     </Routes>
   );

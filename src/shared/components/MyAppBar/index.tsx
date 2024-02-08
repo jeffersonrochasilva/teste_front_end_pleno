@@ -3,16 +3,21 @@ import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { AccountCircle } from "@mui/icons-material";
+import { useState } from "react";
+
+// interface RouteNameType
 
 function appBarLabel(label: string) {
   return (
     <Toolbar>
-      <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-        <MenuIcon />
-      </IconButton>
+      <IconButton
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        sx={{ mr: 2 }}
+      ></IconButton>
       <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
         {label}
       </Typography>
@@ -40,11 +45,13 @@ const darkTheme = createTheme({
   },
 });
 export const MyAppBar = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [routerName] = useState<string>("Dashboard");
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
       <ThemeProvider theme={darkTheme}>
         <AppBar position="static" color="primary" enableColorOnDark>
-          {appBarLabel("enableColorOnDark")}
+          {appBarLabel(`TryKat - ${routerName}`)}
         </AppBar>
       </ThemeProvider>
     </Stack>

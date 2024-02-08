@@ -1,25 +1,41 @@
 import {
-  Avatar,
   Box,
+  Button,
   Divider,
   Drawer,
   Icon,
   List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDrawerContext } from "../../contexts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { ExpandMoreOutlined } from "@mui/icons-material";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
+interface ListItem {
+  title: string;
+  route: string;
+}
+
 export const MenuLateral: React.FC = ({ children }) => {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
-
   const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext();
+  const [dataList] = useState<ListItem[]>([
+    {
+      title: "Dashboard",
+      route: "/dashboard",
+    },
+    {
+      title: "Usuário",
+      route: "/",
+    },
+  ]);
 
   return (
     <>
@@ -42,36 +58,32 @@ export const MenuLateral: React.FC = ({ children }) => {
             alignItems="center"
             justifyContent="center"
           >
-            {/* <Avatar
-              // sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
-              alt="Remy Sharp"
-              src="/broken-image.jpg"
-            >
-              B
-            </Avatar> */}
-            <ExpandMoreIcon />
             <ExpandMoreIcon />
           </Box>
-
           <Divider />
-          <Box height={theme.spacing(5)}>
-            <List component="nav">
-              <ListItemButton>
-                <ListItemIcon>
-                  <Icon>home</Icon>
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-              </ListItemButton>
-            </List>
-          </Box>
+
           <Box flex={1}>
             <List component="nav">
-              <ListItemButton>
-                <ListItemIcon>
-                  <Icon>home</Icon>
-                </ListItemIcon>
-                <ListItemText primary="Usuário" />
-              </ListItemButton>
+              {dataList.map((text, index) => (
+                <Link
+                  to={text.route}
+                  style={{ textDecoration: "none", color: "black" }}
+                  key={text.title}
+                >
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? (
+                          <Icon>home</Icon>
+                        ) : (
+                          <Icon>home</Icon>
+                        )}
+                      </ListItemIcon>
+                      <ListItemText primary={text.title} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              ))}
             </List>
           </Box>
           <Divider />
