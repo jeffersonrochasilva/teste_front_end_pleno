@@ -6,14 +6,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useState } from "react";
-import { LoadingButton } from "@mui/lab";
 import { Box } from "@mui/material";
+
+// comonets
+import { ButtonComponent } from "../commom";
+
 export const MyTable = () => {
   const [dataHeader] = useState<Array<string>>([
     "Categoria",
-    "Categoria",
-    "Categoria",
-    "Categoria",
+    "Valor",
+    "Data",
+    "Ações",
   ]);
 
   const [data] = useState([
@@ -25,7 +28,6 @@ export const MyTable = () => {
   const [loadingSave, setLoadingSave] = useState(false);
   function handleClick() {
     setLoadingSave(!loadingSave);
-
     setTimeout(() => {
       setLoadingSave(false);
     }, 2000);
@@ -38,6 +40,11 @@ export const MyTable = () => {
       setLoadingExcluir(false);
     }, 2000);
   }
+
+  const edititemInTable = (item: any) => {
+    alert("Então você quer editar este item, né?");
+    console.log("o console.log funcinou", item);
+  };
 
   return (
     // <MyDataTableContext>
@@ -55,7 +62,7 @@ export const MyTable = () => {
         </TableHead>
         <TableBody>
           {data.map((row) => (
-            <TableRow key={row.category}>
+            <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.category}
               </TableCell>
@@ -63,25 +70,27 @@ export const MyTable = () => {
               <TableCell align="left">{row.date}</TableCell>
               <TableCell align="left">
                 <Box display={"flex"}>
-                  <LoadingButton
-                    size="small"
-                    onClick={handleClick}
+                  {/* <Button
+                    buttonClick={handleClick}
                     loading={loadingSave}
-                    color="inherit"
-                    variant="outlined"
-                  >
-                    <span>salvar</span>
-                  </LoadingButton>
-                  <LoadingButton
-                    size="small"
+                    title="Salvar"
+                    color="success"
+                  /> */}
+                  <ButtonComponent
+                    marginRight="0px"
+                    icon={true}
+                    variantype="text"
+                    buttonClick={() => edititemInTable(row)}
+                  />
+                  <ButtonComponent
+                    marginRight="0px"
+                    icon={true}
                     loading={loadingExcluir}
-                    // loadingIndicator="exclir"
-                    variant="outlined"
-                    onClick={handleClickExcluir}
-                    color="inherit"
-                  >
-                    <span>excluir</span>
-                  </LoadingButton>
+                    iconsName="delete"
+                    variantype="text"
+                    color="error"
+                    buttonClick={handleClickExcluir}
+                  />
                 </Box>
               </TableCell>
             </TableRow>
@@ -89,6 +98,5 @@ export const MyTable = () => {
         </TableBody>
       </Table>
     </TableContainer>
-    // </MyDataTableContext>
   );
 };
