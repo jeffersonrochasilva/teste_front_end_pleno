@@ -73,9 +73,10 @@ export const MenuLateral: React.FC = ({ children }) => {
                     <ListItemButton>
                       <ListItemIcon>
                         {index % 2 === 0 ? (
-                          <Icon>home</Icon>
+                          <Icon>dashboard</Icon>
                         ) : (
-                          <Icon>home</Icon>
+                          // <Icon>home</Icon>
+                          <Icon>person</Icon>
                         )}
                       </ListItemIcon>
                       <ListItemText primary={text.title} />
