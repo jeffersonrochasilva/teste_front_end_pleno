@@ -8,49 +8,41 @@ import Paper from "@mui/material/Paper";
 import { useState } from "react";
 import { Box } from "@mui/material";
 
+// recoil
+import { useRecoilState } from "recoil";
+import { tableStore } from "../../store/table";
+import { lineTableStore } from "../../store/table";
+import { dataHeaderStore } from "../../store/table";
+
 // comonets
 import { ButtonComponent } from "../commom";
 
 export const MyTable = () => {
-  const [dataHeader] = useState<Array<string>>([
-    "Categoria",
-    "Valor",
-    "Data",
-    "Ações",
-  ]);
+  const [tableStores, setTableStores] = useRecoilState(tableStore);
+  const [lineTable, setLineTable] = useRecoilState(lineTableStore);
+  const [dataHeader] = useRecoilState(dataHeaderStore);
 
-  const [data] = useState([
-    { category: "Categoria1", value: "12,32", date: "30/01/2024", id: 1 },
-    { category: "Categoria2", value: "13,32", date: "30/01/2024", id: 2 },
-    { category: "Categoria3", value: "12,32", date: "30/01/2024", id: 3 },
-  ]);
-
-  const [loadingSave, setLoadingSave] = useState(false);
-  function handleClick() {
-    setLoadingSave(!loadingSave);
-    setTimeout(() => {
-      setLoadingSave(false);
-    }, 2000);
-  }
   const [loadingExcluir, setLoadingExcluir] = useState(false);
-  function handleClickExcluir() {
+  function handleClickExcluir(params: any) {
     setLoadingExcluir(!loadingExcluir);
-
     setTimeout(() => {
+      const arr = tableStores.filter((item) => item.id != params.id);
+      setTableStores(arr);
       setLoadingExcluir(false);
+      console.log("atom da tabela", tableStores);
     }, 2000);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const edititemInTable = (item: any) => {
-    alert("Então você quer editar este item, né?");
-    console.log("o console.log funcinou", item);
+    setLineTable([item]);
+    console.log("ätom da linha", lineTable);
   };
 
   return (
-    // <MyDataTableContext>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="caption table">
-        <caption>A basic table example with a caption</caption>
+        <caption>A basic table example with a caption </caption>
         <TableHead>
           <TableRow>
             {dataHeader.map((item) => (
@@ -61,7 +53,7 @@ export const MyTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row) => (
+          {tableStores.map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.category}
@@ -70,12 +62,6 @@ export const MyTable = () => {
               <TableCell align="left">{row.date}</TableCell>
               <TableCell align="left">
                 <Box display={"flex"}>
-                  {/* <Button
-                    buttonClick={handleClick}
-                    loading={loadingSave}
-                    title="Salvar"
-                    color="success"
-                  /> */}
                   <ButtonComponent
                     marginRight="0px"
                     icon={true}
@@ -89,7 +75,7 @@ export const MyTable = () => {
                     iconsName="delete"
                     variantype="text"
                     color="error"
-                    buttonClick={handleClickExcluir}
+                    buttonClick={() => handleClickExcluir(row)}
                   />
                 </Box>
               </TableCell>

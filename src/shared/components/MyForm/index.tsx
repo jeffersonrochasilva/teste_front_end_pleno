@@ -1,7 +1,8 @@
 import { LoadingButton } from "@mui/lab";
 import { Box, TextField } from "@mui/material";
 import { useState } from "react";
-
+// contexts
+import { myTableContext } from "../../contexts/MyTablecontext";
 // compoents
 import { ButtonComponent } from "../commom/ButtonComponent";
 export const MyForm = () => {
@@ -58,8 +59,10 @@ export const MyForm = () => {
             label="Categoria"
             variant="standard"
             fullWidth
-            value={categoria}
-            onChange={(e) => setCategoria(e.target.value)}
+            value={myTableContext.secundDataTable.category}
+            onChange={(e) =>
+              (myTableContext.secundDataTable.category = e.target.value)
+            }
           />
         </Box>
         <Box width={"23%"}>
