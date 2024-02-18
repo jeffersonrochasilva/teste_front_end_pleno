@@ -12,7 +12,7 @@ export const tableStore = atom({
 
 export const lineTableStore = atom({
   key: "lineTableStore",
-  default: null,
+  default: [{ category: "", value: "", date: "", id: 0 }],
 });
 
 export const dataHeaderStore = atom({

@@ -1,55 +1,51 @@
-import { LoadingButton } from "@mui/lab";
 import { Box, TextField } from "@mui/material";
 import { useState } from "react";
-// contexts
-import { myTableContext } from "../../contexts/MyTablecontext";
-// compoents
+
+// recoil
+import { useRecoilState } from "recoil";
+import { tableStore } from "../../store/table";
+
 import { ButtonComponent } from "../commom/ButtonComponent";
+
 export const MyForm = () => {
-  const [categoria, setCategoria] = useState<string>("");
   const [valor, setValor] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [get, setGet] = useState<string>("");
   const [loadingFormButton, setLoadingFormButton] = useState<boolean>(false);
 
-  const obterDataAtualFormatada = () => {
-    console.log("fsdjkhbfkdsbfskjb");
-    const dataAtual = new Date();
-    formatarData(dataAtual);
-    return console.log(dataAtual);
-  };
+  const [tableData, setTableData] = useRecoilState(tableStore);
 
   const saveMyform = () => {
     setLoadingFormButton(!loadingFormButton);
+    const arr = [
+      {
+        category: get,
+        value: valor,
+        date: formatarData(date),
+        id: tableData.length + 1,
+      },
+      ...tableData,
+    ];
+    setTableData(arr);
+    console.log("fdskjhaljkba", arr);
     setTimeout(() => {
       setLoadingFormButton(false);
     }, 2000);
   };
 
-  function formatarData(dataString: Date) {
-    const meses = {
-      Jan: 0,
-      Feb: 1,
-      Mar: 2,
-      Apr: 3,
-      May: 4,
-      Jun: 5,
-      Jul: 6,
-      Aug: 7,
-      Sep: 8,
-      Oct: 9,
-      Nov: 10,
-      Dec: 11,
-    };
+  const formatarData = (data: string) => {
+    if (data.length !== 8) {
+      return "Formato de data inválido. Por favor, forneça a data no formato DDMMAAAA.";
+    }
 
-    const data = new Date(dataString);
+    const dia = data.slice(0, 2);
+    const mes = data.slice(2, 4);
+    const ano = data.slice(4);
 
-    const dia = String(data.getDate()).padStart(2, "0");
-    const mes = meses[data.toLocaleString("en", { month: "short" })];
-    const ano = data.getFullYear();
+    const dataFormatada = `${dia}/${mes}/${ano}`;
 
-    return console.log(`${dia}/${mes}/${ano}`);
-  }
+    return dataFormatada;
+  };
 
   return (
     <Box>
@@ -59,10 +55,8 @@ export const MyForm = () => {
             label="Categoria"
             variant="standard"
             fullWidth
-            value={myTableContext.secundDataTable.category}
-            onChange={(e) =>
-              (myTableContext.secundDataTable.category = e.target.value)
-            }
+            value={get}
+            onChange={(e) => setGet(e.target.value)}
           />
         </Box>
         <Box width={"23%"}>
@@ -82,7 +76,7 @@ export const MyForm = () => {
             fullWidth
             value={date}
             onChange={(e) => {
-              setDate(e.target.value), obterDataAtualFormatada();
+              setDate(e.target.value);
             }}
           />
         </Box>

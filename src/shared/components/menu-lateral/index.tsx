@@ -13,20 +13,18 @@ import {
 } from "@mui/material";
 import { useDrawerContext } from "../../contexts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Link } from "react-router-dom";
 
-// recoil
-import { useRecoilState } from "recoil";
-import { sessionStore } from "../../store/session";
 interface ListItem {
   title: string;
   route: string;
 }
+interface MenuLateralProps {
+  children: ReactNode;
+}
 
-export const MenuLateral: React.FC = ({ children }) => {
-  const [session, setSession] = useRecoilState(sessionStore);
-
+export const MenuLateral: React.FC<MenuLateralProps> = ({ children }) => {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
   const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext();
@@ -54,7 +52,6 @@ export const MenuLateral: React.FC = ({ children }) => {
           display="flex"
           flexDirection="column"
         >
-          <h1>{session}</h1>
           <Divider />
           <Box
             width="100%"

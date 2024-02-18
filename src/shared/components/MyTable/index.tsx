@@ -13,28 +13,51 @@ import { useRecoilState } from "recoil";
 import { tableStore } from "../../store/table";
 import { lineTableStore } from "../../store/table";
 import { dataHeaderStore } from "../../store/table";
+import { snackbarStore } from "../../store/general";
 
 // comonets
 import { ButtonComponent } from "../commom";
+interface Item {
+  category: string;
+  value: string;
+  date: string;
+  id: number;
+}
 
 export const MyTable = () => {
   const [tableStores, setTableStores] = useRecoilState(tableStore);
   const [lineTable, setLineTable] = useRecoilState(lineTableStore);
   const [dataHeader] = useRecoilState(dataHeaderStore);
+  const [snackbar, setSnackbar] = useRecoilState(snackbarStore);
 
   const [loadingExcluir, setLoadingExcluir] = useState(false);
-  function handleClickExcluir(params: any) {
+  function handleClickExcluir(params: Item) {
     setLoadingExcluir(!loadingExcluir);
     setTimeout(() => {
       const arr = tableStores.filter((item) => item.id != params.id);
       setTableStores(arr);
       setLoadingExcluir(false);
+      setSnackbar({
+        value: true,
+        message: "produto excluido com sucesso!",
+        vertical: "top",
+        horizontal: "center",
+      });
+      setTimeout(() => {
+        setSnackbar({
+          value: false,
+          message: "",
+          vertical: "",
+          horizontal: "",
+        });
+      }, 2000);
       console.log("atom da tabela", tableStores);
     }, 2000);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const edititemInTable = (item: any) => {
+    console.log(snackbar);
     setLineTable([item]);
     console.log("ätom da linha", lineTable);
   };
