@@ -5,7 +5,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
 // recoil
@@ -29,6 +29,7 @@ export const MyTable = () => {
   const [lineTable, setLineTable] = useRecoilState(lineTableStore);
   const [dataHeader] = useRecoilState(dataHeaderStore);
   const [snackbar, setSnackbar] = useRecoilState(snackbarStore);
+  const [data, setData] = useState([]);
 
   const [loadingExcluir, setLoadingExcluir] = useState(false);
   function handleClickExcluir(params: Item) {
@@ -62,6 +63,33 @@ export const MyTable = () => {
     console.log("ätom da linha", lineTable);
   };
 
+  const getApiFunction = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/posts");
+      const data = await response.json();
+      setData(data);
+    } catch (error) {
+      console.error("Error fetching ports:", error);
+    }
+  };
+
+  const deletePort = async (id: object) => {
+    console.log(id.id);
+    try {
+      await fetch(`http://localhost:3000/posts/${id.id}`, {
+        method: "DELETE",
+      });
+      // setData(data.filter((port) => port.id !== id));
+      console.log("funcinou");
+    } catch (error) {
+      console.error("Error deleting port:", error);
+    }
+  };
+
+  useEffect(() => {
+    getApiFunction();
+  }, []);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="caption table">
@@ -76,34 +104,35 @@ export const MyTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableStores.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                {row.category}
-              </TableCell>
-              <TableCell align="left">{row.value}</TableCell>
-              <TableCell align="left">{row.date}</TableCell>
-              <TableCell align="left">
-                <Box display={"flex"}>
-                  <ButtonComponent
-                    marginRight="0px"
-                    icon={true}
-                    variantype="text"
-                    buttonClick={() => edititemInTable(row)}
-                  />
-                  <ButtonComponent
-                    marginRight="0px"
-                    icon={true}
-                    loading={loadingExcluir}
-                    iconsName="delete"
-                    variantype="text"
-                    color="error"
-                    buttonClick={() => handleClickExcluir(row)}
-                  />
-                </Box>
-              </TableCell>
-            </TableRow>
-          ))}
+          {data &&
+            data.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell component="th" scope="row">
+                  {row.category}
+                </TableCell>
+                <TableCell align="left">{row.value}</TableCell>
+                <TableCell align="left">{row.date}</TableCell>
+                <TableCell align="left">
+                  <Box display={"flex"}>
+                    <ButtonComponent
+                      marginRight="0px"
+                      icon={true}
+                      variantype="text"
+                      buttonClick={() => edititemInTable(row)}
+                    />
+                    <ButtonComponent
+                      marginRight="0px"
+                      icon={true}
+                      loading={loadingExcluir}
+                      iconsName="delete"
+                      variantype="text"
+                      color="error"
+                      buttonClick={() => deletePort(row)}
+                    />
+                  </Box>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>

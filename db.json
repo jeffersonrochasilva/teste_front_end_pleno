@@ -1,0 +1,37 @@
+{
+  "posts": [
+    {
+      "category": "Categoria1",
+      "value": "12,32",
+      "date": "30/01/2024",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "category": "Categoria1",
+      "value": "12,32",
+      "date": "30/01/2024"
+    },
+    {
+      "id": 2,
+      "category": "Categoria1",
+      "value": "12,32",
+      "date": "30/01/2024"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
+      "postId": "1"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

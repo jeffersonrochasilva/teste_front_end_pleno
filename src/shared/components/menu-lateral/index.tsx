@@ -35,7 +35,7 @@ export const MenuLateral: React.FC<MenuLateralProps> = ({ children }) => {
     },
     {
       title: "Usuário",
-      route: "/",
+      route: "/user",
     },
   ]);
 

@@ -8,6 +8,37 @@ import { tableStore } from "../../store/table";
 import { ButtonComponent } from "../commom/ButtonComponent";
 
 export const MyForm = () => {
+  function postarNovoPost() {
+    const dados = {
+      category: "Categoria1",
+      value: "12,32",
+      date: "30/01/2024",
+      id: 2,
+    };
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados),
+    };
+
+    const endpoint = "http://localhost:3000/posts";
+
+    fetch(endpoint, requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao enviar a requisição POST");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Resposta da requisição POST:", data);
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+      });
+  }
+
   const [valor, setValor] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [get, setGet] = useState<string>("");
@@ -82,7 +113,7 @@ export const MyForm = () => {
         </Box>
         <Box width={"23%"}>
           <ButtonComponent
-            buttonClick={saveMyform}
+            buttonClick={postarNovoPost}
             loading={loadingFormButton}
             title="Salvar"
             color="info"
