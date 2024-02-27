@@ -4,6 +4,7 @@ import { useDrawerContext } from "../shared/contexts";
 
 import { Cadastro } from "../pages";
 import { Dashboard } from "../pages/Dashboard";
+import { User } from "../pages/User";
 
 export const AppRoutes = () => {
   const { toggleDrawerOpen } = useDrawerContext();
@@ -22,6 +23,7 @@ export const AppRoutes = () => {
         }
       />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/user" element={<User />} />
       <Route path="*" element={<Navigate to="/page-initial" />} />
     </Routes>
   );
