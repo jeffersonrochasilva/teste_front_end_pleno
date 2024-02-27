@@ -135,7 +135,6 @@ export const MyForm = (props: any) => {
             onChange={(e) => setGet(e.target.value)}
           />
         </Box>
-        <span>testando: {stepFilter}</span>
         <Box width={"25%"}>
           <TextField
             label="Valor"
@@ -189,6 +188,7 @@ export const MyForm = (props: any) => {
           }}
         >
           <TextField
+            disabled={stepFilter === 0}
             label="Buscar..."
             variant="standard"
             fullWidth
