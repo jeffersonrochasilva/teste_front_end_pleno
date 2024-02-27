@@ -14,6 +14,10 @@ export const lineTableStore = atom({
   key: "lineTableStore",
   default: [{ category: "", value: "", date: "", id: 0 }],
 });
+export const lineTableStoreObj = atom({
+  key: "lineTableStoreObj",
+  default: { category: "", value: "", date: "", id: 0 },
+});
 
 export const dataHeaderStore = atom({
   key: "dataHeaderStore",

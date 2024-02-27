@@ -5,16 +5,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box } from "@mui/material";
-
+import axios from "axios";
 // recoil
 import { useRecoilState } from "recoil";
-import { tableStore } from "../../store/table";
-import { lineTableStore } from "../../store/table";
 import { dataHeaderStore } from "../../store/table";
-import { snackbarStore } from "../../store/general";
-
 // comonets
 import { ButtonComponent } from "../commom";
 interface Item {
@@ -24,71 +20,26 @@ interface Item {
   id: number;
 }
 
-export const MyTable = () => {
-  const [tableStores, setTableStores] = useRecoilState(tableStore);
-  const [lineTable, setLineTable] = useRecoilState(lineTableStore);
+export const MyTable = (props: unknown) => {
   const [dataHeader] = useRecoilState(dataHeaderStore);
-  const [snackbar, setSnackbar] = useRecoilState(snackbarStore);
-  const [data, setData] = useState([]);
 
-  const [loadingExcluir, setLoadingExcluir] = useState(false);
-  function handleClickExcluir(params: Item) {
-    setLoadingExcluir(!loadingExcluir);
-    setTimeout(() => {
-      const arr = tableStores.filter((item) => item.id != params.id);
-      setTableStores(arr);
-      setLoadingExcluir(false);
-      setSnackbar({
-        value: true,
-        message: "produto excluido com sucesso!",
-        vertical: "top",
-        horizontal: "center",
-      });
-      setTimeout(() => {
-        setSnackbar({
-          value: false,
-          message: "",
-          vertical: "",
-          horizontal: "",
-        });
-      }, 2000);
-      console.log("atom da tabela", tableStores);
-    }, 2000);
-  }
+  const [loadingExcluir] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const edititemInTable = (item: any) => {
-    console.log(snackbar);
-    setLineTable([item]);
-    console.log("ätom da linha", lineTable);
-  };
 
-  const getApiFunction = async () => {
+  const deletePort = async (item: Item) => {
+    console.log("id do item", item.id);
+
     try {
-      const response = await fetch("http://localhost:3000/posts");
-      const data = await response.json();
-      setData(data);
-    } catch (error) {
-      console.error("Error fetching ports:", error);
+      const response = await axios.delete(
+        `http://localhost:3000/posts/${item.id}`
+      );
+      console.log("deu certo", response);
+      props.getApiFunction();
+    } catch (err: unknown) {
+      console.log("ERROR", err);
     }
   };
-
-  const deletePort = async (id: object) => {
-    console.log(id.id);
-    try {
-      await fetch(`http://localhost:3000/posts/${id.id}`, {
-        method: "DELETE",
-      });
-      // setData(data.filter((port) => port.id !== id));
-      console.log("funcinou");
-    } catch (error) {
-      console.error("Error deleting port:", error);
-    }
-  };
-
-  useEffect(() => {
-    getApiFunction();
-  }, []);
 
   return (
     <TableContainer component={Paper}>
@@ -104,8 +55,8 @@ export const MyTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data &&
-            data.map((row) => (
+          {props.data &&
+            props.data.map((row: Item) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   {row.category}
@@ -118,7 +69,7 @@ export const MyTable = () => {
                       marginRight="0px"
                       icon={true}
                       variantype="text"
-                      buttonClick={() => edititemInTable(row)}
+                      buttonClick={() => props.getItemInTebla(row)}
                     />
                     <ButtonComponent
                       marginRight="0px"

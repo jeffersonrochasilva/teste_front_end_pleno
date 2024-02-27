@@ -1,34 +1,69 @@
 {
   "posts": [
     {
-      "category": "Categoria1",
-      "value": "12,32",
-      "date": "30/01/2024",
-      "id": "1"
+      "id": "1",
+      "category": "testando 25",
+      "value": "25.50",
+      "date": "00/00/0000"
+    },
+    {
+      "id": "3",
+      "category": "testando 125",
+      "value": "33333",
+      "date": "00/00/0000"
+    },
+    {
+      "id": "5",
+      "category": "categoria 58",
+      "value": "34.34",
+      "date": "35/35/3535"
+    },
+    {
+      "id": "4",
+      "category": "categoria teste",
+      "value": "7777",
+      "date": "77/77/7777"
     },
     {
       "id": "2",
-      "category": "Categoria1",
-      "value": "12,32",
-      "date": "30/01/2024"
+      "category": "categoria teste 2",
+      "value": "9999",
+      "date": "99/99/9999"
     },
     {
-      "id": 2,
-      "category": "Categoria1",
-      "value": "12,32",
-      "date": "30/01/2024"
+      "id": "6",
+      "category": "objeto de teste",
+      "value": "9999",
+      "date": "99/99/9999"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "sexo": "x",
+      "name": "Maria"
+    },
+    {
+      "id": "2",
+      "sexo": "y",
+      "name": "João"
+    },
+    {
+      "id": "3",
+      "sexo": "x",
+      "name": "Julliete"
     }
   ],
   "comments": [
     {
       "id": "1",
       "text": "a comment about post 1",
-      "postId": "1"
+      "postId": null
     },
     {
       "id": "2",
       "text": "another comment about post 1",
-      "postId": "1"
+      "postId": null
     }
   ],
   "profile": {

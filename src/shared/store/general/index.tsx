@@ -9,3 +9,13 @@ export const snackbarStore = atom({
     horizontal: "center",
   },
 });
+
+export const stepSaveItem = atom({
+  key: "stepSaveItem",
+  default: false,
+});
+
+export const stepTypeFilter = atom({
+  key: "stepTypeFilter",
+  default: 0,
+});
